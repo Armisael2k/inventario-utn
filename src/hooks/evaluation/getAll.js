@@ -1,0 +1,20 @@
+import { api } from "@/services/apiClient";
+import { toast } from "react-toastify";
+
+async function getAll() {
+  try {
+    const { data } = await api.get("/evaluation/getAll");
+    return data?.evaluations;
+  } catch (err) {
+    switch (err?.response?.status) {
+      case 403:
+        toast.error("No tienes permiso para ver evaluaciones");
+        return false;
+      default:
+        toast.error("Error al obtener evaluaciones");
+        return false;
+    }
+  }
+}
+
+export default getAll;
